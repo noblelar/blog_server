@@ -24,6 +24,10 @@ mongoose.connect(process.env.MONGO_URL);
 
 // mongoose.connect('mongodb+srv://noble1:oGyFlsXmPBcf5bmw@cluster0.9ubiesn.mongodb.net/?retryWrites=true&w=majority');
 
+app.get('/', async (req, res) => {
+    res.json('this is awesome');
+})
+
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
     try {
