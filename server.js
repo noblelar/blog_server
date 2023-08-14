@@ -20,7 +20,19 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-mongoose.connect(process.env.MONGO_URL);
+// mongoose.connect(process.env.MONGO_URL);
+
+const MONGODB_URI = process.env.MONGO_URL;
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
 
 // mongoose.connect('mongodb+srv://noble1:oGyFlsXmPBcf5bmw@cluster0.9ubiesn.mongodb.net/?retryWrites=true&w=majority');
 
@@ -154,9 +166,12 @@ app.get(`/post/:id`, async (req, res) => {
     // res.json(req.params);
 });
 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
-
-app.listen(4000);
+// app.listen(4000);
 
 
 
